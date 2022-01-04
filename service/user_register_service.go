@@ -9,7 +9,7 @@ import (
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
 	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`                 //昵称
-	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`               //用户名
+	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=64"`               //用户名
 	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`                 //密码
 	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=8,max=40"` //确认密码
 }
