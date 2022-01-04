@@ -5,7 +5,7 @@ import "fmt"
 //分页获取相关
 const (
 	APIValueDirectionDesc = 1   //降序
-	APIValueDirectionASC  = 2   //生序
+	APIValueDirectionASC  = 2   //升序
 	APIMaxPageSize        = 100 //分页限制
 )
 

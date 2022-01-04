@@ -7,7 +7,9 @@ import (
 	"gomusic/pkg/logger"
 	"gomusic/util"
 	"log"
+	"math/rand"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -45,6 +47,8 @@ func Init() {
 	// 连接数据库
 	model.Database(os.Getenv("MYSQL_DSN"))
 	cache.Redis()
+
+	rand.Seed(time.Now().Unix())
 }
 
 func initAppPath() {

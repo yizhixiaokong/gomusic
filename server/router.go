@@ -23,18 +23,23 @@ func NewRouter() *gin.Engine {
 	// 路由
 	rg := r.Group(apiHttpPrefix)
 
+	registerDebug(rg)
 	registerLogin(rg)
 	registerExample(rg)
+	registerMusic(rg)
 
 	return r
 }
 
-func registerLogin(rg *gin.RouterGroup) {
+func registerDebug(rg *gin.RouterGroup) {
 	// Ping
-	rg.POST("ping", api.Ping)
+	rg.POST("/debug/ping", api.Ping)
 
 	// Version
-	rg.GET("version", api.Version)
+	rg.GET("/debug/version", api.Version)
+}
+
+func registerLogin(rg *gin.RouterGroup) {
 
 	// 用户注册
 	rg.POST("user/register", api.UserRegister)
@@ -60,4 +65,22 @@ func registerExample(rg *gin.RouterGroup) {
 	egr.POST("", api.PostExample)        // 添加样例
 	egr.PUT("", api.PutExample)          // 修改样例
 	egr.DELETE("", api.DeleteExample)    // 删除样例
+}
+
+func registerMusic(rg *gin.RouterGroup) {
+	egr := rg.Group("/music")
+
+	egr.GET("/list", api.GetMusicList)     // 获取歌曲列表
+	egr.GET("/random", api.GetRandomMusic) // 获取随机若干首歌曲
+
+	// 需要登录保护的
+	auth := egr.Group("")
+	auth.Use(middleware.AuthRequired())
+	{
+		auth.POST("", api.PostMusic)              // 添加歌曲
+		auth.PUT("", api.PutMusic)                // 修改歌曲
+		auth.DELETE("", api.DeleteMusic)          // 删除歌曲
+		auth.POST("/list", api.PostBatchMusic)    // 批量添加歌曲
+		auth.DELETE("list", api.DeleteBatchMusic) // 批量删除歌曲
+	}
 }
