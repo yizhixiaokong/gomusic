@@ -18,27 +18,33 @@ func GetMusicList(tx *gorm.DB, page common.Page, musicName, originalSinger, lang
 	where := map[string]interface{}{}
 
 	if musicName != "" {
-		where["music_name"] = musicName
+		// where["music_name"] = musicName
+		tx = tx.Where("music_name LIKE ?", "%"+musicName+"%")
 	}
 
 	if originalSinger != "" {
-		where["original_singer"] = originalSinger
+		// where["original_singer"] = originalSinger
+		tx = tx.Where("original_singer LIKE ?", "%"+originalSinger+"%")
 	}
 
 	if language != "" {
-		where["language"] = language
+		// where["language"] = language
+		tx = tx.Where("language LIKE ?", "%"+musicName+"%")
 	}
 
 	if musicType != "" {
-		where["music_type"] = musicType
+		// where["music_type"] = musicType
+		tx = tx.Where("music_type LIKE ?", "%"+musicType+"%")
 	}
 
 	if proficiencyLevel != "" {
-		where["proficiency_level"] = proficiencyLevel
+		// where["proficiency_level"] = proficiencyLevel
+		tx = tx.Where("proficiency_level LIKE ?", "%"+proficiencyLevel+"%")
 	}
 
 	if designateBy != "" {
-		where["designate_by"] = designateBy
+		// where["designate_by"] = designateBy
+		tx = tx.Where("designate_by LIKE ?", "%"+designateBy+"%")
 	}
 
 	err = tx.Where(where).Where("`deleted_at` IS NULL").Count(&total).Error //total
