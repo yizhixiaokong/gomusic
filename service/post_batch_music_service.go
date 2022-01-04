@@ -9,7 +9,7 @@ import (
 )
 
 type PostBatchMusicService struct {
-	List []PostMusicService `form:"list" json:"list"`
+	List []PostMusicService `form:"list" json:"list" binding:"required,gte=1"`
 }
 
 // PostBatchMusic 批量添加歌曲服务

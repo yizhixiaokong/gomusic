@@ -7,7 +7,7 @@ import (
 )
 
 type DeleteMusicService struct {
-	ID uint `form:"id" json:"id"`
+	ID uint `form:"id" json:"id" binding:"required"`
 }
 
 // DeleteMusic 删除歌曲服务

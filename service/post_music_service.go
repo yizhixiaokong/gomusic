@@ -9,12 +9,12 @@ import (
 )
 
 type PostMusicService struct {
-	MusicName        string `form:"musicName" json:"musicName"`               //歌名
-	OriginalSinger   string `form:"originalSinger" json:"originalSinger"`     //原唱
-	Language         string `form:"language" json:"language"`                 //语言
-	MusicType        string `form:"musicType" json:"musicType"`               //分类
-	ProficiencyLevel string `form:"proficiencyLevel" json:"proficiencyLevel"` //熟练度
-	DesignateBy      string `form:"designateBy" json:"designateBy"`           //指定者
+	MusicName        string `form:"musicName" json:"musicName" binding:"required"`           //歌名
+	OriginalSinger   string `form:"originalSinger" json:"originalSinger" binding:"required"` //原唱
+	Language         string `form:"language" json:"language" binding:"required"`             //语言
+	MusicType        string `form:"musicType" json:"musicType" binding:"required"`           //分类
+	ProficiencyLevel string `form:"proficiencyLevel" json:"proficiencyLevel"`                //熟练度
+	DesignateBy      string `form:"designateBy" json:"designateBy"`                          //指定者
 }
 
 // PostMusic 添加歌曲服务

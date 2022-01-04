@@ -8,13 +8,13 @@ import (
 )
 
 type PutMusicService struct {
-	ID               uint   `form:"id" json:"id"`
-	MusicName        string `form:"musicName" json:"musicName"`               //歌名
-	OriginalSinger   string `form:"originalSinger" json:"originalSinger"`     //原唱
-	Language         string `form:"language" json:"language"`                 //语言
-	MusicType        string `form:"musicType" json:"musicType"`               //分类
-	ProficiencyLevel string `form:"proficiencyLevel" json:"proficiencyLevel"` //熟练度
-	DesignateBy      string `form:"designateBy" json:"designateBy"`           //指定者
+	ID               uint   `form:"id" json:"id" binding:"required"`
+	MusicName        string `form:"musicName" json:"musicName" binding:"required"`           //歌名
+	OriginalSinger   string `form:"originalSinger" json:"originalSinger" binding:"required"` //原唱
+	Language         string `form:"language" json:"language" binding:"required"`             //语言
+	MusicType        string `form:"musicType" json:"musicType" binding:"required"`           //分类
+	ProficiencyLevel string `form:"proficiencyLevel" json:"proficiencyLevel"`                //熟练度
+	DesignateBy      string `form:"designateBy" json:"designateBy"`                          //指定者
 }
 
 // PutMusic 修改歌曲服务
@@ -32,7 +32,7 @@ func (service *PutMusicService) PutMusic() (serializer.Music, common.WebError) {
 
 	_, err = dao.GetMusicByName(nil, service.MusicName)
 	exist, err = dao.ExistRow(err)
-	if exist {
+	if exist && service.MusicName != music.MusicName {
 		return serializer.Music{}, common.ErrIsExist().AddMsg(" :歌曲name已存在")
 	}
 	if err != nil {
@@ -40,10 +40,18 @@ func (service *PutMusicService) PutMusic() (serializer.Music, common.WebError) {
 		return serializer.Music{}, common.ErrServer()
 	}
 
-	music.MusicName = service.MusicName
-	music.OriginalSinger = service.OriginalSinger
-	music.Language = service.Language
-	music.MusicType = service.MusicType
+	if service.MusicName != "" {
+		music.MusicName = service.MusicName
+	}
+	if service.OriginalSinger != "" {
+		music.OriginalSinger = service.OriginalSinger
+	}
+	if service.Language != "" {
+		music.Language = service.Language
+	}
+	if service.MusicType != "" {
+		music.MusicType = service.MusicType
+	}
 	music.ProficiencyLevel = service.ProficiencyLevel
 	music.DesignateBy = service.DesignateBy
 

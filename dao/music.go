@@ -41,7 +41,7 @@ func GetMusicList(tx *gorm.DB, page common.Page, musicName, originalSinger, lang
 		where["designate_by"] = designateBy
 	}
 
-	err = tx.Where(where).Count(&total).Error //total
+	err = tx.Where(where).Where("`deleted_at` IS NULL").Count(&total).Error //total
 	if total == 0 {
 		return total, items, err
 	}
@@ -84,44 +84,6 @@ func GetMusicByName(tx *gorm.DB, name string) (item model.Music, err error) {
 	where := map[string]interface{}{"music_name": name}
 
 	err = tx.Where(where).First(&item).Error
-	return
-}
-
-func CountMusicList(tx *gorm.DB, musicName, originalSinger, language, musicType, proficiencyLevel, designateBy string) (total int, err error) {
-	if tx == nil {
-		tx = model.GetDB()
-	}
-	name := model.Music{}.TableName()
-	tx = tx.Table(name)
-
-	where := map[string]interface{}{}
-
-	if musicName != "" {
-		where["music_name"] = musicName
-	}
-
-	if originalSinger != "" {
-		where["original_singer"] = originalSinger
-	}
-
-	if language != "" {
-		where["language"] = language
-	}
-
-	if musicType != "" {
-		where["music_type"] = musicType
-	}
-
-	if proficiencyLevel != "" {
-		where["proficiency_level"] = proficiencyLevel
-	}
-
-	if designateBy != "" {
-		where["designate_by"] = designateBy
-	}
-
-	err = tx.Where(where).Count(&total).Error //total
-
 	return
 }
 

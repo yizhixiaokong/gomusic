@@ -16,6 +16,11 @@ func GetMusicList(c *gin.Context) {
 		common.ResJson(c, nil, common.ErrInvalidParams(err))
 		return
 	}
+	if err := service.Page.Check(); err != nil {
+		logger.Info(err.Error())
+		common.ResJson(c, nil, err)
+		return
+	}
 	res, err := service.GetMusicList()
 	common.ResJson(c, res, err)
 }

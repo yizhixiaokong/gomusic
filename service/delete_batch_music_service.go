@@ -8,7 +8,7 @@ import (
 )
 
 type DeleteBatchMusicService struct {
-	IDs []uint `json:"ids"`
+	IDs []uint `json:"ids" binding:"required,gte=1"`
 }
 
 // DeleteBatchMusic 批量删除歌曲服务
