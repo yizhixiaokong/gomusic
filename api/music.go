@@ -8,6 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 获取单首歌曲
+func GetMusic(c *gin.Context) {
+	var service service.GetMusicService
+	if err := c.ShouldBind(&service); err != nil {
+		logger.Info(err.Error())
+		common.ResJson(c, nil, common.ErrInvalidParams(err))
+		return
+	}
+	res, err := service.GetMusic()
+	common.ResJson(c, res, err)
+}
+
 // 获取歌曲列表
 func GetMusicList(c *gin.Context) {
 	var service service.GetMusicListService

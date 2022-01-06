@@ -70,6 +70,7 @@ func registerExample(rg *gin.RouterGroup) {
 func registerMusic(rg *gin.RouterGroup) {
 	egr := rg.Group("/music")
 
+	egr.GET("", api.GetMusic)              // 获取单首歌曲列表
 	egr.GET("/list", api.GetMusicList)     // 获取歌曲列表
 	egr.GET("/random", api.GetRandomMusic) // 获取随机若干首歌曲
 
